@@ -1,0 +1,4 @@
+# file: C:\Users\valle\AppData\Roaming\Python\Python314\site-packages\pygame\typing.py
+# hypothesis_version: 6.151.11
+
+['ColorLike', 'FileLike', 'IntPoint', 'Point', 'RectLike', 'SequenceLike', '_T_co']

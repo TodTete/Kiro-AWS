@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "name": "Code Quality Reviewer",
+  "description": "Analyzes modified Python source files for code smells, design pattern opportunities, and best practices. Suggests improvements for readability, maintainability, and performance while preserving existing functionality.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "game/**/*.py",
+      "main.py"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A Python source file in this Pygame project was just saved. Analyze the modified file for potential improvements across these areas:\n\n1. Code smells (duplicated logic, long functions, magic numbers, etc.)\n2. Design pattern opportunities relevant to the existing architecture (entity update/draw pattern, state machine, asset singletons)\n3. Python best practices (type hints, comprehensions, context managers, etc.)\n4. Readability and naming clarity (keeping Spanish naming conventions where already used)\n5. Performance considerations relevant to a 60 FPS game loop (avoid allocations in hot paths, surface caching, etc.)\n\nBe concise and specific. Reference actual lines or functions from the file. Do not refactor unless asked — only suggest improvements."
+  },
+  "workspaceFolderName": "VideoGame-Nave-main",
+  "shortName": "code-quality-review"
+}

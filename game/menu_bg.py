@@ -1,12 +1,11 @@
 import pygame
-from .gif import load_gif_frames
+from .gif import load_gif_frames, GifAnimator
 from .constants import ANCHO, ALTO
 
 class MenuBG:
     def __init__(self, gif_path):
-        self.frames, self.durations = load_gif_frames(gif_path, size=(ANCHO, ALTO))
-        self.current_frame = 0
-        self.time_accumulator = 0
+        frames, durations = load_gif_frames(gif_path, size=(ANCHO, ALTO))
+        self._anim = GifAnimator(frames, durations)
         self.zoom_factor = 1.0  # Inicializamos el factor de zoom
         self.offset_x = 0  # Para mover el fondo horizontalmente
         self.offset_y = 0  # Para mover el fondo verticalmente
@@ -15,12 +14,7 @@ class MenuBG:
 
     def update(self, dt_ms):
         """Actualiza la animación del fondo y el zoom"""
-        self.time_accumulator += dt_ms
-
-        # Avanzamos la animación del gif
-        if self.time_accumulator >= self.durations[self.current_frame]:
-            self.time_accumulator = 0
-            self.current_frame = (self.current_frame + 1) % len(self.frames)
+        self._anim.update(dt_ms)
 
         # Aplicamos zoom progresivo (se puede ajustar la velocidad)
         self.zoom_factor += self.zoom_speed  # Aumenta el zoom poco a poco
@@ -34,7 +28,7 @@ class MenuBG:
 
     def draw(self, surface):
         """Dibuja el fondo escalado sobre la superficie con desplazamiento"""
-        frame = self.frames[self.current_frame]
+        frame = self._anim.current_frame
         
         # Escalamos el fotograma actual del gif
         scaled_frame = pygame.transform.smoothscale(frame, 

@@ -1,7 +1,7 @@
 # game/app.py
 import pygame, random, math
 from .constants import *
-from .utils import cargar_sonido, reproducir, dibujar_texto, leer_hiscore, guardar_hiscore, load_font
+from .utils import cargar_sonido, reproducir, dibujar_texto, leer_hiscore, guardar_hiscore, guardar_partida_json, load_font
 from .background import AnimatedBackground
 from .camera import Camera
 from .assets import init_after_display
@@ -577,6 +577,11 @@ class GameApp:
                 play_music("assets/music/game.mp3", volume=self.vol.music_effective(), loop=True, fade_ms=600)
                 if j["puntaje"] > self.hiscore:
                     self.hiscore = j["puntaje"]; guardar_hiscore(self.hiscore)
+                guardar_partida_json(
+                    puntaje=j["puntaje"],
+                    nivel=j["nivel"],
+                    jugador=self.character.selected_ship,
+                )
 
     # -----------------
     # Draw

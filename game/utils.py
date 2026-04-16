@@ -1,4 +1,6 @@
 import os
+import json
+from datetime import datetime
 import pygame
 
 # --------- Audio helpers ----------
@@ -68,3 +70,29 @@ def guardar_hiscore(puntos, ruta="hiscore.txt"):
             f.write(str(puntos))
     except Exception as e:
         print(f"[AVISO] No se pudo guardar hiscore: {e}")
+
+def guardar_partida_json(puntaje, nivel, jugador, ruta="hiscore.json"):
+    """Guarda o actualiza el historial de partidas en un archivo JSON.
+    
+    Cada entrada incluye fecha, puntaje, nivel alcanzado y nombre del jugador.
+    El archivo mantiene un historial de todas las partidas ordenado por puntaje.
+    """
+    try:
+        historial = []
+        if os.path.exists(ruta):
+            with open(ruta, "r", encoding="utf-8") as f:
+                historial = json.load(f)
+        
+        entrada = {
+            "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "puntaje": puntaje,
+            "nivel": nivel,
+            "jugador": jugador,
+        }
+        historial.append(entrada)
+        historial.sort(key=lambda x: x["puntaje"], reverse=True)
+
+        with open(ruta, "w", encoding="utf-8") as f:
+            json.dump(historial, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"[AVISO] No se pudo guardar partida JSON: {e}")

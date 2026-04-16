@@ -1,0 +1,4 @@
+# file: C:\Users\valle\AppData\Roaming\Python\Python314\site-packages\pygame\_debug.py
+# hypothesis_version: 6.151.11
+
+['.', '=', 'AVX2', 'GIL Enabled:\t\tTrue\n', 'NEON', 'No', 'None', 'SSE2', 'WAYLAND_DISPLAY', 'X11', 'XDG_SESSION_TYPE', 'Yes', '_is_gil_enabled', 'get_driver', 'get_init', 'get_sdl_ttf_version', 'get_version', 'pygame.font', 'pygame.freetype', 'pygame.image', 'pygame.mixer', 'utf8', 'w', 'wayland']

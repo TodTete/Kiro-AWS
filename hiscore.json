@@ -1,0 +1,38 @@
+[
+  {
+    "fecha": "2026-04-07 15:48:58",
+    "puntaje": 750,
+    "nivel": 3,
+    "jugador": "TETE"
+  },
+  {
+    "fecha": "2026-04-07 15:32:28",
+    "puntaje": 290,
+    "nivel": 8,
+    "jugador": "BRAYAN"
+  },
+  {
+    "fecha": "2026-04-07 15:31:26",
+    "puntaje": 250,
+    "nivel": 1,
+    "jugador": "TETE"
+  },
+  {
+    "fecha": "2026-04-07 15:31:57",
+    "puntaje": 250,
+    "nivel": 1,
+    "jugador": "TETE"
+  },
+  {
+    "fecha": "2026-04-07 15:34:03",
+    "puntaje": 250,
+    "nivel": 1,
+    "jugador": "TETE"
+  },
+  {
+    "fecha": "2026-04-07 15:47:23",
+    "puntaje": 250,
+    "nivel": 1,
+    "jugador": "BRAYAN"
+  }
+]

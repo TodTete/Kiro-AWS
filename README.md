@@ -14,6 +14,8 @@ Arcade 2D desarrollado en **Python + Pygame**, con fondos animados, jefes progre
 * Fondos GIF animados tanto en juego como en menús.
 * Power-ups temporales (velocidad, disparo rápido, ralentización).
 * Bomba automática durante la fase de jefe.
+* **Dificultad adaptativa**: si el hiscore supera 5 000 puntos, la velocidad de los enemigos aumenta un 20% automáticamente.
+* **Historial de partidas**: al terminar cada partida se guarda una entrada en `hiscore.json` con fecha, puntaje, nivel alcanzado y nave seleccionada. El archivo se ordena automáticamente de mayor a menor puntaje.
 * Navegación mediante menús con opciones, dificultad y créditos.
 * Cámara con paneo suave y transiciones visuales.
 
@@ -72,6 +74,7 @@ Asegúrese de mantener la estructura original de archivos para evitar fallos en 
 C:.
 │   .gitignore
 │   hiscore.txt
+│   hiscore.json
 │   LICENSE
 │   main.py
 │   README.md

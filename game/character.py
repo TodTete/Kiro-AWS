@@ -1,40 +1,7 @@
 import pygame
 from . import assets as Assets
 from .constants import ANCHO, ALTO, SHIP_ORDER, SHIP_DISPLAY, MENU_CHARACTER, BLANCO, AMARILLO, AZUL, MORADO
-
-# --- util para GIFs (con fallback si no hay Pillow) ---
-def _load_frames(path, size=(100, 100)):
-    """
-    Carga un GIF o imagen estática con compatibilidad total.
-    """
-    try:
-        from PIL import Image, ImageSequence
-        img = Image.open(path)
-        frames, durations = [], []
-
-        for frame in ImageSequence.Iterator(img):
-            f = frame.convert("RGBA")
-            surf = pygame.image.fromstring(f.tobytes(), f.size, "RGBA").convert_alpha()
-            surf = pygame.transform.smoothscale(surf, size)
-            frames.append(surf)
-            durations.append(int(frame.info.get("duration", 100)))
-
-        if not frames:
-            raise ValueError("GIF vacío")
-
-        durations = [d if d > 0 else 100 for d in durations]
-        return frames, durations
-
-    except Exception as e:
-        # Carga imagen estática si no es GIF
-        try:
-            static = pygame.image.load(path).convert_alpha()
-            static = pygame.transform.smoothscale(static, size)
-        except Exception:
-            static = pygame.Surface(size, pygame.SRCALPHA)
-            pygame.draw.polygon(static, (200, 200, 255),
-                                [(size[0]//2, 6), (10, size[1]-8), (size[0]-10, size[1]-8)])
-        return [static], [150]
+from .gif import load_gif_frames, GifAnimator
 
 
 class CharacterSelect:
@@ -43,17 +10,16 @@ class CharacterSelect:
         self.ship_index = 0
         self.spacing = 180
 
-        # Cargar frames (GIFs animados incluidos)
-        self.previews = {
-            "BRAYAN":   _load_frames("assets/extra/nave.gif",   (100, 100)),
-            "FERNANDA": _load_frames("assets/extra/nave-f.jpg", (100, 100)),
-            "MARLIN":   _load_frames("assets/extra/nave-m.gif", (100, 100)),
-            "TETE":     _load_frames("assets/extra/nave-t.gif", (100, 100)),
+        # Cargar animadores (GIFs animados incluidos)
+        self._animators = {
+            key: GifAnimator(*load_gif_frames(path, size=(100, 100)))
+            for key, path in [
+                ("BRAYAN",   "assets/extra/nave.gif"),
+                ("FERNANDA", "assets/extra/nave-f.jpg"),
+                ("MARLIN",   "assets/extra/nave-m.gif"),
+                ("TETE",     "assets/extra/nave-t.gif"),
+            ]
         }
-
-        # Estado de animación por nave
-        # { key: {"i": índice_frame, "t": acumulador_ms} }
-        self._anim_state = {k: {"i": 0, "t": 0} for k in self.previews.keys()}
 
         # aplicar por defecto
         self.apply_selected_skin()
@@ -73,24 +39,11 @@ class CharacterSelect:
 
     def update(self, dt_ms: int):
         """
-        Avanza la animación de todos los GIFs.
-        Llama a este método en tu bucle principal con dt en milisegundos.
+        Avanza la animación de todos los GIFs limitado a 30 FPS.
         Ej: character_select.update(clock.get_time())
         """
-        for key, (frames, durations) in self.previews.items():
-            if len(frames) <= 1:
-                continue  # estático, nada que animar
-            st = self._anim_state[key]
-            st["t"] += dt_ms
-            # avanzar cuadro respetando duración por frame
-            while st["t"] >= durations[st["i"]]:
-                st["t"] -= durations[st["i"]]
-                st["i"] = (st["i"] + 1) % len(frames)
-
-    def _current_frame(self, key):
-        frames, _ = self.previews[key]
-        idx = self._anim_state[key]["i"] if len(frames) > 1 else 0
-        return frames[idx]
+        for anim in self._animators.values():
+            anim.update(dt_ms)
 
     def draw(self, surface, fuente_titulo, fuente):
         from .utils import dibujar_texto
@@ -106,7 +59,7 @@ class CharacterSelect:
             px = cx + (idx - self.ship_index) * spacing
 
             # Dibujar solo el sprite animado centrado (sin rectángulos de fondo/borde)
-            frame = self._current_frame(key)
+            frame = self._animators[key].current_frame
             fr = frame.get_rect(center=(px, cy - 10))
             surface.blit(frame, fr)
 

@@ -7,6 +7,7 @@ from .entities.bullet import Bala
 from .entities.powerups import PowerUp, BombPickup, BombProjectile
 from .utils import reproducir
 from .assets import BALA_IMG  # (asegura carga)
+from .enemy_spawning import velocidad_enemigo_adaptativa
 
 def activar_pantalla_nivel(juego, ahora):
     juego["vidas"] = 3
@@ -31,7 +32,7 @@ def reset_juego():
     ultimo_disparo = 0
 
     enemigos = crear_enemigos(6)
-    vel_enemigo_base = 2.0
+    vel_enemigo_base = velocidad_enemigo_adaptativa(2.0)
 
     nivel = 1; puntaje = 0; vidas = 3
     invulnerable_hasta = 0; invulnerable_ms = 1200

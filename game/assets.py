@@ -48,10 +48,18 @@ def _cargar_player_frames_for_skin(skin):
                             [(PLAYER_W//2,4),(10,PLAYER_H-6),(PLAYER_W-10,PLAYER_H-6)])
         return [surf], [120]
     elif skin == "FERNANDA":
-        return _frames_from_image("assets/extra/nave-f.gif", (PLAYER_W, PLAYER_H))
+        return _frames_from_image("assets/extra/nave-f.jpg", (PLAYER_W, PLAYER_H))
     elif skin == "MARLIN":
+        frames, durs = load_gif_frames("assets/extra/nave-m.gif", size=(PLAYER_W, PLAYER_H))
+        if frames:
+            print(f"[INFO] Nave (MARLIN): {len(frames)} frames")
+            return frames, durs
         return _frames_from_image("assets/extra/nave-m.gif", (PLAYER_W, PLAYER_H))
     elif skin == "TETE":
+        frames, durs = load_gif_frames("assets/extra/nave-t.gif", size=(PLAYER_W, PLAYER_H))
+        if frames:
+            print(f"[INFO] Nave (TETE): {len(frames)} frames")
+            return frames, durs
         return _frames_from_image("assets/extra/nave-t.gif", (PLAYER_W, PLAYER_H))
     else:
         return _frames_from_image("assets/extra/nave-m.gif", (PLAYER_W, PLAYER_H))

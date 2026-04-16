@@ -6,6 +6,38 @@ except Exception as e:
     print("[AVISO] Pillow no disponible, los GIF se verán estáticos:", e)
     PIL_OK = False
 
+# Intervalo mínimo entre avances de frame: ~33 ms = 30 FPS
+_GIF_MIN_FRAME_MS = 1000 / 30
+
+
+class GifAnimator:
+    """Gestiona el avance de frames de un GIF limitado a 30 FPS máximo."""
+
+    def __init__(self, frames, durations):
+        self.frames = frames
+        self.durations = durations
+        self.idx = 0
+        self._accum = 0.0
+        self._throttle_accum = 0.0
+
+    def update(self, dt):
+        """Avanza la animación con dt en milisegundos, limitado a 30 FPS."""
+        self._throttle_accum += dt
+        if self._throttle_accum < _GIF_MIN_FRAME_MS:
+            return
+        # Consumimos solo el tiempo acumulado hasta ahora
+        effective_dt = self._throttle_accum
+        self._throttle_accum = 0.0
+
+        self._accum += effective_dt
+        while self._accum >= self.durations[self.idx]:
+            self._accum -= self.durations[self.idx]
+            self.idx = (self.idx + 1) % len(self.frames)
+
+    @property
+    def current_frame(self):
+        return self.frames[self.idx]
+
 def load_gif_frames(path, size):
     frames, durations = [], []
     if not PIL_OK:

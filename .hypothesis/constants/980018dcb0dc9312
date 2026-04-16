@@ -1,0 +1,4 @@
+# file: C:\Users\valle\OneDrive\Documents\GitHub\VideoGame-Nave-main\game\constants.py
+# hypothesis_version: 6.151.11
+
+[0.12, 0.35, 0.85, 1.0, 1.2, 1.75, 1.9, 100, 120, 170, 175, 200, 212, 215, 220, 250, 255, 600, 800, 1200, 1500, 'ALTA', 'BAJA', 'BOSS_INTRO', 'BRAYAN', 'EXTREMA', 'FERNANDA', 'GAME_OVER', 'JUGANDO', 'LEVEL_INTRO', 'MARLIN', 'MEDIA', 'MENU_CHARACTER', 'MENU_DIFFICULTY', 'MENU_LEVEL', 'MENU_MAIN', 'MENU_OPTIONS', 'N Brayan', 'N Fer', 'N Mar', 'N Tete', 'PAUSA', 'STORY_INTRO', 'TETE', 'assets/scenes/fondo-', 'assets/scenes/plants', 'boss_hp', 'enemy_speed', 'spaces astro']
